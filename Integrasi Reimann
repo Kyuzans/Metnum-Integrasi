@@ -1,0 +1,36 @@
+import time
+import numpy as np
+
+# Fungsi untuk dihitung dalam integral
+def f(x):
+    return 4 / (1 + x**2)
+
+# Fungsi untuk menghitung integral Reimann
+def reimann_integral(start, end, num_intervals):
+    interval_width = (end - start) / num_intervals
+    integral_sum = 0
+    for i in range(num_intervals):
+        x_i = start + i * interval_width
+        integral_sum += f(x_i) * interval_width
+    return integral_sum
+
+# Fungsi untuk menghitung kesalahan RMSE
+def calculate_error(true_value, approx_value):
+    return np.sqrt(np.mean((true_value - approx_value)**2))
+
+if __name__ == "__main__":
+    true_pi = 3.14159265358979323846
+    num_intervals_list = [10, 100, 1000, 10000]
+
+    for num_intervals in num_intervals_list:
+        start_time = time.time()
+        approx_pi = reimann_integral(0, 1, num_intervals)
+        elapsed_time = time.time() - start_time
+
+        error = calculate_error(true_pi, approx_pi)
+
+        print(f"For num_intervals = {num_intervals}:")
+        print(f"Approximated Pi: {approx_pi}")
+        print(f"Root Mean Square Error: {error}")
+        print(f"Execution Time: {elapsed_time} seconds")
+        print()
